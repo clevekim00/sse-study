@@ -8,6 +8,7 @@ package clevekim.study.spring.sse.controller;
  * Date: 2020-02-05
  */
 
+import clevekim.study.spring.sse.component.TemperatureSensor;
 import clevekim.study.spring.sse.model.Temperature;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.MediaType;
@@ -28,13 +29,24 @@ public class TemperatureController {
 
     private final Set<SseEmitter> clients = new CopyOnWriteArraySet<>();
 
+    private TemperatureSensor temperatureSensor;
+    public TemperatureController(TemperatureSensor temperatureSensor) {
+        this.temperatureSensor = temperatureSensor;
+    }
+
     @RequestMapping(value = "/temperature-stream", method = RequestMethod.GET)
     public SseEmitter events(HttpServletRequest request) {
-        SseEmitter emitter = new SseEmitter();
-        clients.add(emitter);
+//        SseEmitter emitter = new SseEmitter();
+//        clients.add(emitter);
+//
+//        emitter.onTimeout(() -> clients.remove(emitter));
+//        emitter.onCompletion(() -> clients.remove(emitter));
+//
+//        return emitter;
 
-        emitter.onTimeout(() -> clients.remove(emitter));
-        emitter.onCompletion(() -> clients.remove(emitter));
+        RxSseEmitter emitter = new RxSseEmitter();
+
+        temperatureSensor.temperatureStream().subscribe(emitter.getSubscriber());
 
         return emitter;
     }

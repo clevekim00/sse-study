@@ -17,26 +17,26 @@ import java.util.concurrent.Executor;
  * email : clevekim@naver.com
  * Date: 2020-02-05
  */
-@EnableAsync
+//@EnableAsync
 @SpringBootApplication
-public class Application implements AsyncConfigurer {
+public class Application { //implements AsyncConfigurer {
 
     public static void main(String []ags) {
         SpringApplication.run(Application.class, ags);
     }
 
-    @Override
-    public Executor getAsyncExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(2);
-        executor.setMaxPoolSize(100);
-        executor.setQueueCapacity(5);
-        executor.initialize();
-        return executor;
-    }
-
-    @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return new SimpleAsyncUncaughtExceptionHandler();
-    }
+//    @Override
+//    public Executor getAsyncExecutor() {
+//        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+//        executor.setCorePoolSize(2);
+//        executor.setMaxPoolSize(100);
+//        executor.setQueueCapacity(5);
+//        executor.initialize();
+//        return executor;
+//    }
+//
+//    @Override
+//    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+//        return new SimpleAsyncUncaughtExceptionHandler();
+//    }
 }
